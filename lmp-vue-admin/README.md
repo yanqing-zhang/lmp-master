@@ -1,5 +1,5 @@
-# Vue 3 + TypeScript + Vite
+# 大模型实验平台前端工程
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 1、项目简介
+前端工程包含权限管理、各种模型的应用，其中权限管理包含用户、部门、公司、角色、菜单或按钮等的权限配置。
+前端工程使用Vue.js框架，使用ElementUI组件库，使用axios进行前后端数据交互。
