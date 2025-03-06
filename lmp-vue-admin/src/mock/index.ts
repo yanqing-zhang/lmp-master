@@ -29,7 +29,34 @@ const menulist = [
     {
         name: "权限设置",
         url: "/permission",
-        icon: "Setting"
+        icon: "Setting",
+        children: [
+            {
+                name: "人员管理",
+                url: "/permission/userlist",
+                icon: "VideoCamera"
+            },
+            {
+                name: "公司管理",
+                url: "/permission/companylist",
+                icon: "DataAnalysis"
+            },
+            {
+                name: "部门管理",
+                url: "/permission/departmentlist",
+                icon: "DataAnalysis"
+            },
+            {
+                name: "角色管理",
+                url: "/permission/rolelist",
+                icon: "DataAnalysis"
+            },
+            {
+                name: "资源管理",
+                url: "/permission/resourcelist",
+                icon: "DataAnalysis"
+            }
+        ]
     },
     {
         name: "个人中心",
