@@ -7,7 +7,7 @@
 '''
 import os
 import typing
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     VERSION: str = "0.1.0"

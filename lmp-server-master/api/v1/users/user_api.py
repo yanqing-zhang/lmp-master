@@ -7,7 +7,7 @@
 '''
 from fastapi import APIRouter, Query
 from tortoise.expressions import Q
-from mock.mock_login_json import menulist_admin_json, menulist_user_json, menulist_manager_json
+from mock.mock_login_json import menulist_admin_json, menulist_user_json
 from utils.ResponseWrapper import Success, Fail
 router = APIRouter()
 
@@ -31,14 +31,21 @@ def get_user(
 ):
 
     return "get_user"
+
+
 @router.post("/login", summary="登录")
 def login(
         login_name:str = Query(..., description="用户名"),
         password:str = Query(..., description="密码"),
     ):
+    print(f"login_name:{login_name}")
+    print(f"password:{password}")
+
     if login_name == "admin" and password == "1":
+        print(f"menulist_admin_json:{menulist_admin_json}")
         return Success(data=menulist_admin_json)
     if login_name == "user" and password == "1":
+        print(f"menulist_user_json:{menulist_user_json}")
         return Success(data=menulist_user_json)
     else:
         return Fail(msg="用户名或密码错误")

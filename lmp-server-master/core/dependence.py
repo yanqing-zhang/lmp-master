@@ -10,8 +10,8 @@ from typing import Optional
 import jwt
 from fastapi import Depends, Header, HTTPException, Request
 
-from app.core.ctx import CTX_USER_ID
-from app.models import Role, User
+from core.ctx import CTX_USER_ID
+from models.permission import Role, User
 from settings.config import settings
 
 

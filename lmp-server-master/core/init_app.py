@@ -8,7 +8,11 @@
 import shutil
 
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
+from fastapi.middleware.cors import CORSMiddleware
+from tortoise.expressions import Q
 
+from api import api_router
 from utils.exceptions import (
     DoesNotExist,
     DoesNotExistHandle,
@@ -21,6 +25,12 @@ from utils.exceptions import (
     ResponseValidationError,
     ResponseValidationHandle,
 )
+from models.permission import Api, Menu, Role
+from settings.enums import MenuType
+from settings.config import settings
+
+def make_middlewares():
+    pass
 
 
 def register_exceptions(app: FastAPI):
@@ -33,3 +43,30 @@ def register_exceptions(app: FastAPI):
 
 def register_routers(app: FastAPI, prefix: str = "/api"):
     app.include_router(api_router, prefix=prefix)
+
+
+async def init_superuser():
+    pass
+
+
+async def init_menus():
+    pass
+
+
+async def init_apis():
+    pass
+
+
+async def init_db():
+    pass
+
+
+async def init_roles():
+    pass
+
+async def init_data():
+    await init_db()
+    await init_superuser()
+    await init_menus()
+    await init_apis()
+    await init_roles()

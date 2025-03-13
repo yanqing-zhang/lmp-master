@@ -5,8 +5,9 @@
 @Author  ：yanqing.zhang@
 @Date    ：2025/3/11 15:57 
 '''
-menulist_admin_json = f"""
-[
+import pandas as pd
+
+menulist_admin_st = [
     {
         "name": "数据看板",
         "url": "/dashboard",
@@ -67,11 +68,10 @@ menulist_admin_json = f"""
         "icon": "User"
     }
 ]
-"""
 
+menulist_admin_json = pd.json_normalize(menulist_admin_st).to_json(orient='records')
 
-menulist_user_json = f"""
-[
+menulist_user_str = [
     {
         "name": "数据看板",
         "url": "/dashboard",
@@ -100,4 +100,5 @@ menulist_user_json = f"""
         "icon": "User"
     }
 ]
-"""
+
+menulist_user_json = pd.json_normalize(menulist_user_str).to_json(orient='records')

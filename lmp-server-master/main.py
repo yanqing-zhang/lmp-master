@@ -8,6 +8,12 @@
 import uvicorn
 from fastapi import FastAPI
 from utils.exceptions import SettingNotFound
+from core.init_app import (
+    init_data,
+    make_middlewares,
+    register_exceptions,
+    register_routers,
+)
 
 try:
     from settings.config import settings
