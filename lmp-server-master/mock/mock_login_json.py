@@ -6,6 +6,9 @@
 @Date    ：2025/3/11 15:57 
 '''
 import pandas as pd
+import datetime
+from dateutil import tz
+from models.permission import LoginUser
 
 menulist_admin_st = [
     {
@@ -100,5 +103,16 @@ menulist_user_str = [
         "icon": "User"
     }
 ]
+
+mock_user_list = []
+def create_user():
+    login_user = LoginUser()
+    login_user.user_id = "1001"
+    login_user.login_name = "admin"
+    login_user.login_pwd = "1"
+    login_user.latest_login_time = datetime.datetime.now(tz=tz.tzlocal())  # "2025-03-11 15:57:00"
+    if login_user not in mock_user_list:
+        mock_user_list.append(login_user)
+    return login_user
 
 menulist_user_json = pd.json_normalize(menulist_user_str).to_json(orient='records')

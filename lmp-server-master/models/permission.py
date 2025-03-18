@@ -90,3 +90,10 @@ class AuditLog(BaseModel, TimestampMixin):
     path = fields.CharField(max_length=255, default="", description="请求路径", index=True)
     status = fields.IntField(default=-1, description="状态码", index=True)
     response_time = fields.IntField(default=0, description="响应时间(单位ms)", index=True)
+
+class LoginUser(BaseModel, TimestampMixin):
+    user_id = fields.CharField(max_length=20, default="", description="用户ID", index=True)
+    login_name = fields.CharField(max_length=50, default="", description="登录账号", index=True)
+    login_pwd = fields.CharField(max_length=50, default="", description="登录密码", index=True)
+    login_ip = fields.CharField(max_length=20, default="", description="登录IP", index=True)
+    latest_login_time = fields.DatetimeField(null=True, description="登录时间", index=True)
