@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from tortoise.expressions import Q
 
 from api import api_router
+from core.middlewares import BackGroundTaskMiddleware, HttpAuditLogMiddleware
 from utils.exceptions import (
     DoesNotExist,
     DoesNotExistHandle,
@@ -30,7 +31,25 @@ from settings.enums import MenuType
 from settings.config import settings
 
 def make_middlewares():
-    pass
+    middleware = [
+        Middleware(
+            CORSMiddleware,
+            allow_origins=settings.CORS_ORIGINS,
+            allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
+            allow_methods=settings.CORS_ALLOW_METHODS,
+            allow_headers=settings.CORS_ALLOW_HEADERS,
+        ),
+        Middleware(BackGroundTaskMiddleware),
+        Middleware(
+            HttpAuditLogMiddleware,
+            methods=["GET", "POST", "PUT", "DELETE"],
+            exclude_paths=[
+                "/docs",
+                "/openapi.json",
+            ],
+        ),
+    ]
+    return middleware
 
 
 def register_exceptions(app: FastAPI):
