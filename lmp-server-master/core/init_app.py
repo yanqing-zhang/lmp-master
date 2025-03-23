@@ -34,20 +34,19 @@ def make_middlewares():
     middleware = [
         Middleware(
             CORSMiddleware,
-            allow_origins=settings.CORS_ORIGINS,
-            allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
-            allow_methods=settings.CORS_ALLOW_METHODS,
-            allow_headers=settings.CORS_ALLOW_HEADERS,
+            allow_origins=["*"],  # 允许所有源，生产环境应指定具体源
+            allow_credentials=True,
+            allow_methods=["*"],  # 允许所有方法（包括OPTIONS）
+            allow_headers=["*"],  # 允许所有头部
         ),
-        Middleware(BackGroundTaskMiddleware),
-        Middleware(
-            HttpAuditLogMiddleware,
-            methods=["GET", "POST", "PUT", "DELETE"],
-            exclude_paths=[
-                "/docs",
-                "/openapi.json",
-            ],
-        ),
+        # Middleware(
+        #     HttpAuditLogMiddleware,
+        #     methods=["GET", "POST", "PUT", "DELETE"],
+        #     exclude_paths=[
+        #         "/docs",
+        #         "/openapi.json",
+        #     ],
+        # ),
     ]
     return middleware
 

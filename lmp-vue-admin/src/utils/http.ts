@@ -2,7 +2,7 @@ import service from "./axios";
 interface ResponseData{
     code:number,
     data:any,
-    message:string
+    massage:string
 }
 
 function get(url:string, params?:any):Promise<ResponseData>{
@@ -10,6 +10,7 @@ function get(url:string, params?:any):Promise<ResponseData>{
 }
 
 function post(url:string, data?:any):Promise<ResponseData>{
+
     return service.post(url, data)
 }
 

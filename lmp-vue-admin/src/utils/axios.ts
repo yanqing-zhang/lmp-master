@@ -2,7 +2,7 @@ import axios, {AxiosError} from "axios";
 import type {AxiosInstance, InternalAxiosRequestConfig, AxiosResponse} from "axios";
 import { ElNotification } from "element-plus";
 const service: AxiosInstance=axios.create({
-    baseURL:"http://localhost:8000/api/v1/base",
+    baseURL:"/api",
     timeout:5000
 })
 

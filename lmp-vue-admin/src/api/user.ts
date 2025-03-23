@@ -1,7 +1,6 @@
 import {post} from "@/utils/http";
-
 enum Api{
-    Login="/login",
+    Login="/v1/base/login",
 }
 interface LoginParams{
     username: string;
