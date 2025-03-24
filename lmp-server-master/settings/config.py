@@ -39,7 +39,7 @@ class Settings(BaseSettings):
                     "port": 3306,  # Database port
                     "user": "root",  # Database username
                     "password": "123456",  # Database password
-                    "database": "test_db",  # Database name
+                    "database": "llm_app_db",  # Database name
                 },
             },
 
