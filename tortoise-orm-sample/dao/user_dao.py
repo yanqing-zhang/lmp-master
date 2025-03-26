@@ -5,10 +5,14 @@
 @Author  ：yanqing.zhang@
 @Date    ：2025/3/24 11:11 
 '''
-from models.permissions import User,UserRoleAssocations
-from schemas.user import User_Pydantic
-from schemas.user_role import UserRoleAssocations_Pydantic
-from utils.utils import model_to_dict
+from typing import Type
+
+from tortoise.contrib.pydantic import PydanticModel
+from tortoise.transactions import atomic
+
+from models.permissions import User, UserRoleAssocations
+
+
 class UserDao:
 
     # 根据登录名获取用户
@@ -20,8 +24,16 @@ class UserDao:
         user = await User.filter(login_name=login_name).first()
         return user
 
-    async def create_user(user_dict: dict, user_role_dict: dict):
+    @staticmethod
+    async def create_user(user: Type[PydanticModel]):
+        user_dict = user.model_dump()  # 转为字典
+        await User.create(**user_dict)  # 使用 ** 解包字典
+        return True
 
-        await User.create(user_dict)
-        await UserRoleAssocations.create(user_role_dict)
+    @atomic()
+    async def create_user_role(user: Type[PydanticModel], user_role: Type[PydanticModel]):
+        user_dict = user.model_dump()
+        user_role_dict = user_role.model_dump()
+        await User.create(**user_dict)  # 使用 ** 解包字典
+        await UserRoleAssocations.create(**user_role_dict)  # 使用 ** 解包字典
         return True

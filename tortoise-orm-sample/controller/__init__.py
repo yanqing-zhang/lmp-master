@@ -18,7 +18,6 @@ from fastapi import FastAPI,APIRouter
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise import Tortoise
 from settings.config import TORTOISE_ORM
-
 app = FastAPI()
 app.include_router(router, prefix="/api")
 

@@ -5,24 +5,20 @@
 @Author  ：yanqing.zhang@
 @Date    ：2025/3/24 13:52 
 '''
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi import FastAPI,APIRouter
+from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise import Tortoise
-from settings.config import TORTOISE_ORM
+from settings.config import setting
 from controller.user_controller import router
 
-from controller import users_router
 def register_routers(app: FastAPI, prefix: str = "/api"):
-    app.include_router(users_router, prefix=prefix)
-
-
+    app.include_router(router, prefix=prefix)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 初始化 Tortoise-ORM
-    await Tortoise.init(config=TORTOISE_ORM)
+    await Tortoise.init(config=setting.TORTOISE_ORM)
     await Tortoise.generate_schemas()  # 生成数据库表
     # await init_data()  # 初始化数据
     yield
@@ -46,7 +42,7 @@ app = create_app()
 
 register_tortoise(
     app,
-    config=TORTOISE_ORM,
+    config=setting.TORTOISE_ORM,
     generate_schemas=False,  # 已经在 lifespan 中生成
     add_exception_handlers=True,
 )

@@ -5,14 +5,12 @@
 @Author  ：yanqing.zhang@
 @Date    ：2025/3/24 11:25 
 '''
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
+from datetime import datetime
 from fastapi import FastAPI,APIRouter
 
-from utils.utils import model_to_dict,model_to_dict_with_exclude
 from dao.user_dao import UserDao
 from models.permissions import User, UserRoleAssocations
-
+from tortoise.contrib.pydantic import pydantic_model_creator
 router = APIRouter()
 @router.get("/")
 async def get_user_by_login_name():
@@ -23,27 +21,33 @@ async def get_user_by_login_name():
 
 @router.post("/create")
 async def create_user_with_roles():
-    user = User()
-    user.login_name = "admin"
-    user.user_id = "10086"
-    user.login_password = "xfafdasfw"
-    user.user_name = "san.li"
-    user.avatar_url = "/a.jpg"
-    user.latest_login_at = datetime.now()
-    user.gender = 1
-    user.phone_no = "13410102020"
-    user.email = "san.li@llm.com"
-    user.wechat_id = "13410102020"
-    user.create_user_id = "U10001"
-    user.update_user_id = "U10001"
-    user.create_at = datetime.now()
-    user.update_at = datetime.now()
-    user.yn = 1
-    user_role = UserRoleAssocations()
-    user_role.user_id = "10086"
-    user_role.role_id = "R1002"
-    user_dict = model_to_dict_with_exclude(user,exclude=["id"])
-    user_role_dict = model_to_dict_with_exclude(user_role,exclude=["id"])
-    print(f"user_dict:{user_dict}")
-    ret = await UserDao.create_user(user_dict,user_role_dict)
+    UserDto = pydantic_model_creator(User, name="UserDto", exclude_readonly=True)
+    # 直接传入字典初始化 UserDto
+    user_data = {
+        "login_name": "admin",
+        "user_id": "10086",
+        "login_password": "xfafdasfw",
+        "user_name": "san.li",
+        "avatar_url": "/a.jpg",
+        "gender": 1,
+        "phone_no": "13410102020",
+        "email": "san.li@llm.com",
+        "wechat_id": "13410102020",
+        "create_user": "U10001",
+        "update_user": "U10001",
+        "yn": 1,
+    }
+    userDto = UserDto(**user_data)
+    # print(userDto.model_dump())
+    UserRoleAssocationsDto = pydantic_model_creator(UserRoleAssocations, name="UserRoleAssocationsDto", exclude_readonly=True)
+    # 直接传入字典初始化 UserRoleAssocationsDto
+    user_role_data = {
+        "user_id": user_data.get("user_id"),
+        "role_id": "R1002",
+        "create_user": "U10001",
+        "update_user": "U10001",
+        "yn": 1,
+    }
+    userRoleAssocationsDto = UserRoleAssocationsDto(**user_role_data)
+    ret = await UserDao.create_user_role(userDto, userRoleAssocationsDto)
     return "success"
